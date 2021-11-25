@@ -1,0 +1,92 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model amostra {
+  id           Int       @id @default(autoincrement())
+  nome         String    @db.VarChar(255)
+  configuracao String?   @db.LongText
+  created_at   DateTime  @default(now()) @db.Timestamp(0)
+  updated_at   DateTime? @db.Timestamp(0)
+  deleted_at   DateTime? @db.Timestamp(0)
+}
+
+model cursos {
+  id             BigInt    @id @default(autoincrement())
+  titulo         String?   @db.Text
+  descricao      String?   @db.Text
+  nivel          Int?
+  configuracao   String?   @db.LongText
+  data_inicio    DateTime? @db.Date
+  horario_inicio DateTime? @db.Time(0)
+  horario_fim    DateTime? @db.Time(0)
+  data_fim       DateTime? @db.Date
+  created_at     DateTime  @default(now()) @db.Timestamp(0)
+  updated_at     DateTime? @db.Timestamp(0)
+  deleted_at     DateTime? @db.Timestamp(0)
+}
+
+model cursos_respostas {
+  id                    Int       @id @default(autoincrement())
+  fk_id_cursos_usuarios Int
+  respostas             String?   @db.LongText
+  status                Int
+  data_criacao          DateTime  @default(now()) @db.Timestamp(0)
+  data_update           DateTime? @db.Timestamp(0)
+}
+
+model cursos_usuarios {
+  id            Int       @id @default(autoincrement())
+  fk_id_usuario Int
+  fk_id_curso   Int
+  etapa         Int
+  status        Int
+  data_criacao  DateTime  @default(now()) @db.Timestamp(0)
+  data_update   DateTime? @db.DateTime(0)
+}
+
+model formularios {
+  id             Int       @id @default(autoincrement())
+  titulo         String    @db.VarChar(255)
+  descricao      String    @db.Text
+  data_inicio    DateTime  @db.Date
+  horario_inicio DateTime  @db.Time(0)
+  tipo           String?   @db.VarChar(20)
+  configuracao   String?   @db.LongText
+  status         Int
+  data_criacao   DateTime  @default(now()) @db.Timestamp(0)
+  data_update    DateTime? @db.Timestamp(0)
+}
+
+model formularios_itens {
+  id               Int       @id @default(autoincrement())
+  fk_id_formulario Int
+  ordem            Int
+  titulo           String    @db.VarChar(255)
+  traducao         String    @db.Text
+  descricao        String    @db.Text
+  tipo             String    @db.VarChar(10)
+  configuracao     String    @db.LongText
+  status           Int
+  data_criacao     DateTime  @default(now()) @db.Timestamp(0)
+  data_update      DateTime? @db.Timestamp(0)
+}
+
+model usuarios {
+  id              Int       @id @default(autoincrement())
+  email           String    @db.VarChar(255)
+  nome            String    @db.VarChar(255)
+  senha           String    @db.VarChar(255)
+  status          Int       @default(0) @db.TinyInt
+  tipo            String    @db.LongText
+  recuperar_token String?   @db.LongText
+  created_at      DateTime  @default(now()) @db.Timestamp(0)
+  deleted_at      DateTime? @db.Timestamp(0)
+  updated_at      DateTime? @db.Timestamp(0)
+}
