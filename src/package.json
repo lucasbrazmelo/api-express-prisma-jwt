@@ -1,7 +1,7 @@
 {
-  "name": "api-gencau",
+  "name": "api_prima_jwt",
   "version": "1.0.0",
-  "description": "API de Analise Sensorial Gencau ",
+  "description": "API Em NODEjs, Express, usando Prisma 2 como ORM e autenticação JWT.",
   "main": "index.js",
   "scripts": {
     "build": "tsc --project ./",

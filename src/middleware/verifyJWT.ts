@@ -3,11 +3,9 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
-
 const config = dotenv.config();
-console.log(typeof config.parsed);
 
-export function verifyJWT(req: express.Request,res: express.Response,next: express.NextFunction) {
+export async function verifyJWT(req: express.Request,res: express.Response,next: express.NextFunction) {
   let token = <string>req.headers["authorization"];
 
   if (!token)
@@ -23,21 +21,20 @@ export function verifyJWT(req: express.Request,res: express.Response,next: expre
   }
 }
 
-export async function loginJWT(request: express.Request,response: express.Response,next: express.NextFunction) {
+export async function loginJWT(request: express.Request,response: express.Response) {
   if (request.body.userId && request.body.password){
     let user: object | null  = await prisma.usuarios.findFirst({
       where: {
         email: request.body.userId,
-        senha: request.body.password,
+        senha: request.body.password
       },
       select: {
         email: true,
-        senha: true,
-        id: true,
+        nome: true,
+        id: true
       }
     });
     if(user){
-      console.log(user);
       const token = jwt.sign({ user:user }, "123456", {expiresIn: 300});
       return response.json({ auth: true, token: token });
     }

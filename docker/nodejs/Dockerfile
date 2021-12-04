@@ -2,14 +2,13 @@ FROM node:16.13-alpine3.12
 
 WORKDIR /usr/app
 
-COPY ./src/package.json ./
+COPY ./src ./
 
-RUN npm install 
-RUN npx prisma generate ./prisma/schema.prisma
-RUN npx prisma db push ./prisma/schema.prisma
-
-COPY . . 
+RUN npm install
+RUN sleep 60
+RUN npx prisma generate --schema=./prisma/schema.prisma
 
 EXPOSE 3000
+EXPOSE 5555
 
 CMD npm start

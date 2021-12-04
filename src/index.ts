@@ -12,20 +12,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get("/", (request: Request, response: Response) => {
-  return response.send("Express + TypeScript Server");
+  return response.send("Express + TypeScript Server (não autenticado)");
 });
 
 //authentication
 app.post("/login",loginJWT, (request:express.Request, response:express.Response, next: NextFunction) => {
-  console.log();
 });
 
 app.post("/logout", function (req: express.Request, res: express.Response) {
   res.json({ auth: false, token: null });
 });
 
-app.post("/home", verifyJWT, function (req: express.Request, res: express.Response, next: NextFunction) {
-  res.send("Express + TypeScript Server");
+//home com verificação de token de acesso
+app.get("/home", verifyJWT, function (req: express.Request, res: express.Response, next: NextFunction) {
+  res.send("Express + TypeScript Server (autenticado)");
 });
 
 const server = http.createServer(app);
